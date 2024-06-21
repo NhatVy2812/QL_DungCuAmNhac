@@ -1,0 +1,73 @@
+﻿@model WebBanDungCu.LOAI
+@{
+    ViewBag.Title = "Thêm Mới Bài Viết";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/home" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/role" class="nav-link">Thêm mới Loại Sản Phẩm</a>
+        </li>
+    </ul>
+}
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thêm Mới Loại Sản Phẩm</h3>
+            <div class="card-tools">
+                <a href="/admin/loaisanpham/create" class="btn btn-primary">Thêm Mới</a>
+            </div>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Create", "LoaiSanPham", FormMethod.Post))
+            {
+                @Html.ValidationSummary(false)
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label>Mã Loại</label>
+                    @Html.TextBoxFor(x => x.MALOAI, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Tên Loại</label>
+                    @Html.TextBoxFor(x => x.TENLOAI, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Alias</label>
+                    @Html.TextBoxFor(x => x.ALIAS, new { @class = "form-control" })
+                </div>
+               
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Thêm mới</button>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</section>
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('txtDetail', {
+                customConfig: '/content/ckeditor/config.js',
+                extraAllowedContent: 'span',
+            });
+        });
+        function BrowseServer(field) {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                document.getElementById(field).value = fileUrl;
+            };
+            finder.popup();
+        }
+    </script>
+}
+

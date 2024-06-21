@@ -1,0 +1,73 @@
+﻿@model IEnumerable<WebBanDungCu.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Quản lí tài khoản";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/home" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/account" class="nav-link">Danh sách tài khoản</a>
+        </li>
+    </ul>
+}
+<h2 style="padding:10px">DANH SÁCH TÀI KHOẢN</h2>
+<div style="margin:10px">
+    <button type="button" class="btn btn-outline-primary"> @Html.ActionLink("Create New", "Create", null, new { @class = "nav-link active" })</button>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Tên Quyền
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Phone
+        </th>
+
+        <th></th>
+    </tr>
+    @if (Model != null && Model.Any())
+    {
+        var i = 1;
+        foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @i
+                </td>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @item.Email
+                </td>
+                <td>
+                    @item.PhoneNumber
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Update"@*new { masp = item.MASP }*@) |
+                    @Html.ActionLink("Details", "Details"@*new { masp = item.MASP }*@) |
+                    @Html.ActionLink("Delete", "Delete"@*new { masp = item.MASP }*@)
+                </td>
+            </tr>
+            i++;
+        }
+    }
+
+
+
+</table>
+

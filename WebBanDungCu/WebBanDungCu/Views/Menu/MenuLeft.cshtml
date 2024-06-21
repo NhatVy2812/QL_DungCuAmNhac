@@ -1,0 +1,27 @@
+﻿@model IEnumerable<WebBanDungCu.LOAI>
+@if (Model != null && Model.Any())
+{
+<ul class="sidebar_categories">
+    @foreach (var item in Model)
+    {
+        if (ViewBag.CateId == item.MALOAI)
+        {
+            <li class="active"><a href="/danh-muc-san-pham/@item.ALIAS-@(item.MALOAI)"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>@item.TENLOAI</a></li> 
+        }
+                    else
+                    {
+                        <li><a href="/danh-muc-san-pham/@item.ALIAS-@(item.MALOAI)">@item.TENLOAI</a></li>
+                    }
+
+     }
+
+
+
+
+    
+  </ul>
+  }
+
+
+
+

@@ -1,0 +1,110 @@
+﻿@model WebBanDungCu.SANPHAM
+@{
+    ViewBag.Title = "Thêm Mới Sản Phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/home" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/sanpham/create" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
+}
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@ViewBag.Title</h3>
+            <div class="card-tools">
+                <a href="/admin/role/create" class="btn btn-primary">Thêm Mới</a>
+            </div>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Create", "SanPham", FormMethod.Post))
+            {
+                @Html.ValidationSummary(false)
+                @Html.AntiForgeryToken()
+                @*<div class="form-group">
+                <label>MASP</label>
+                @Html.TextBoxFor(x => x.MASP, new { @class = "form-control" })
+            </div>*@
+                <div class="form-group">
+                    <label>Tên Sản Phẩm</label>
+                    @Html.TextBoxFor(x => x.TENSP, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Mô Tả</label>
+                    @Html.TextBoxFor(x => x.MOTA, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Link hình ảnh</label>
+                    @Html.TextBoxFor(x => x.IMG, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Giá sản phẩm</label>
+                    @Html.TextBoxFor(x => x.GIA, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Số Lượng</label>
+                    @Html.TextBoxFor(x => x.SOLUONG, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Tình Trạng</label>
+                    @Html.TextBoxFor(x => x.TINHTRANG, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Mã Loại</label>
+                    @Html.DropDownListFor(x => x.MALOAI, ViewBag.LoaiSanPham as SelectList, "-Chọn Loại Sản Phẩm-", new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Mã Thương Hiệu</label>
+                    @Html.TextBoxFor(x => x.MATH, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control-input", @id = "customCheckbox2" })
+                        <label for="customeCheckbox2" class="custom-control-label">Hiển Thị</label>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBoxFor(x => x.IsHome, new { @class = "custom-control-input", @id = "customCheckbox2" })
+                        <label for="customeCheckbox2" class="custom-control-label">Home</label>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Thêm mới</button>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</section>
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('txtDetail', {
+                customConfig: '/content/ckeditor/config.js',
+                extraAllowedContent: 'span',
+            });
+        });
+        function BrowseServer(field) {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                document.getElementById(field).value = fileUrl;
+            };
+            finder.popup();
+        }
+    </script>
+}
+

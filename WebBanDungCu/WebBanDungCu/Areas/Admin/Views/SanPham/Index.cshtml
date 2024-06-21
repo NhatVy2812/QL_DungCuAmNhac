@@ -1,0 +1,164 @@
+﻿@model PagedList.PagedList<WebBanDungCu.SANPHAM>
+@using PagedList.Mvc
+@using PagedList
+@{
+    ViewBag.Title = "Danh Sách Sản Phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/home" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/sanpham" class="nav-link">Danh sách sản phẩm</a>
+        </li>
+    </ul>
+}
+<h2 style="padding:10px">DANH SÁCH SẢN PHẨM</h2>
+<div style="margin:10px">
+    <button type="button" class="btn btn-outline-primary"> @Html.ActionLink("Create New", "Create", null, new { @class = "nav-link active" })</button>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Mã SP
+        </th>
+        <th>
+            Tên SP
+        </th>
+        @*<th>
+            Mô Tả
+        </th>*@
+        <th>
+            Ảnh
+        </th>
+        <th>
+            Giá
+        </th>
+        <th>
+            Số Lượng
+        </th>
+        <th>
+            Tình Trạng
+        </th>
+        <th>
+            Mã Loại
+        </th>
+        <th>
+            Mã TH
+        </th>
+        <th>
+            Hiện Thị
+        </th>
+        <th>
+            Home
+        </th>
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        var strCheck = item.IsActive ? "<i class ='fa fa-check text-success'></i>" : "<i class = 'fas fa-times text-danger'></i>";
+        var strCheck1= item.IsHome ? "<i class ='fa fa-check text-success'></i>" : "<i class = 'fas fa-times text-danger'></i>";
+
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.ID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TENSP)
+    </td>
+    @*<td>
+            @Html.DisplayFor(modelItem => item.MOTA)
+        </td>*@
+    <td>
+        <img src="~/img/img_product/@Html.DisplayFor(modelItem => item.IMG)" alt="Alternate Text" width="70" />
+        @*<img src="@Html.DisplayFor(modelItem => item.IMG)" alt="Alternate Text" width="70" />*@
+
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.GIA)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SOLUONG)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TINHTRANG)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MALOAI)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MATH)
+    </td>
+    <td>
+        <a href="#" data-id="@item.ID" class="btnActive">@Html.Raw(strCheck)</a>
+    </td>
+    <td>
+        <a href="#" data-id="@item.ID" class="btnActive">@Html.Raw(strCheck1)</a>
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { masp = item.ID }) |
+        @Html.ActionLink("Details", "Details", new { masp = item.ID }) |
+        @Html.ActionLink("Delete", "Delete", new { masp = item.ID })
+    </td>
+</tr>
+    }
+    
+</table>
+<div style="margin: 10px">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data("id");
+                var conf = confirm("Bạn có muốn xóa bạn ghi này?");
+                if (conf === true) {
+                    $.ajax(
+                        {
+                            url: '/admin/news/delete',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (rs) {
+                                if (rs.success) {
+                                    $('#trow_' + id).remove();
+                                }
+                            }
+
+                        });
+                }
+            });
+            $('body').on('click', '.btnActive', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var id = btn.data("id");
+                $.ajax(
+                    {
+                        url: '/admin/SanPham/IsActive',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (rs) {
+                            debugger;
+                            if (rs.success) {
+                                if (rs.isActive) {
+                                    btn.html("<i class = 'fa fa-check text-success'></i>");
+                                }
+                                else {
+                                    btn.html("<i class = 'fas fa-times text-danger'></i>");
+                                }
+                            }
+                        }
+
+                    });
+            });
+        });
+    </script>
+}

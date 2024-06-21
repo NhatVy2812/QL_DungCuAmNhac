@@ -1,0 +1,17 @@
+﻿@model IEnumerable<WebBanDungCu.MENU>
+@if (Model != null && Model.Any())
+{
+    <ul class="navbar_menu">
+        @foreach (var item in Model)
+        {
+            if(item.ALIAS.Equals("trangchu"))
+            {
+                item.ALIAS = "";
+            }
+            <li><a href="/@item.ALIAS">@item.TENMENU</a></li>
+
+        }
+
+    </ul>
+}
+
